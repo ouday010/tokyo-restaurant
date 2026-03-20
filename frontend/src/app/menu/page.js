@@ -87,8 +87,8 @@ export default function MenuPage() {
       {/* Grid */}
       <main className="max-w-6xl mx-auto px-4 py-10">
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
               <div key={i} className="card overflow-hidden animate-pulse">
                 <div className="aspect-[4/3] bg-gray-200" />
                 <div className="p-4 space-y-3">
@@ -114,7 +114,7 @@ export default function MenuPage() {
         ) : (
           <>
             <p className="text-muted text-sm mb-6">{filtered.length} item{filtered.length !== 1 ? 's' : ''}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map(item => (
                 <FoodCard key={item.id} item={item} />
               ))}

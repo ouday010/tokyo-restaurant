@@ -16,42 +16,7 @@ const STATUS_COLORS = {
   cancelled: 'bg-red-100 text-red-600 border-red-200',
 };
 
-function AdminNav({ active }) {
-  const router = useRouter();
-  const links = [
-    { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/admin/menu', icon: UtensilsCrossed, label: 'Menu' },
-    { href: '/admin/orders', icon: ShoppingBag, label: 'Orders' },
-  ];
-  const logout = () => { localStorage.removeItem('admin_token'); router.push('/admin/login'); };
-  return (
-    <aside className="w-56 bg-dark text-white flex flex-col min-h-screen shrink-0">
-      <div className="p-6 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <UtensilsCrossed className="h-4 w-4 text-white" />
-          </div>
-          <div>
-            <p className="font-bold text-sm leading-tight">Tokyo H&T</p>
-            <p className="text-gray-400 text-xs">Admin Panel</p>
-          </div>
-        </div>
-      </div>
-      <nav className="flex-1 p-4 space-y-1">
-        {links.map(l => (
-          <Link key={l.href} href={l.href} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${active === l.label ? 'bg-primary text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white'}`}>
-            <l.icon className="h-4 w-4" /> {l.label}
-          </Link>
-        ))}
-      </nav>
-      <div className="p-4 border-t border-white/10">
-        <button onClick={logout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-white/10 hover:text-white transition-colors w-full">
-          <LogOut className="h-4 w-4" /> Logout
-        </button>
-      </div>
-    </aside>
-  );
-}
+// AdminNav component removed - now handled in AdminLayout
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -95,8 +60,6 @@ export default function OrdersPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <AdminNav active="Orders" />
-
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -145,9 +108,9 @@ export default function OrdersPage() {
         ) : (
           <div className="space-y-4">
             {filtered.map(order => (
-              <div key={order.order_id} className="bg-white rounded-2xl shadow-sm p-5">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
+              <div key={order.order_id} className="bg-white rounded-2xl shadow-sm p-4 sm:p-5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="font-black text-dark text-sm font-mono">{order.order_id}</span>
                       <span className={`text-xs px-2.5 py-1 rounded-full font-semibold border ${STATUS_COLORS[order.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}>
@@ -155,15 +118,15 @@ export default function OrdersPage() {
                       </span>
                     </div>
                     <p className="text-sm font-semibold text-dark">{order.guest_name}</p>
-                    <p className="text-xs text-muted mt-0.5">{order.guest_phone} · {new Date(order.created_at).toLocaleString()}</p>
+                    <p className="text-xs text-muted mt-1">{order.guest_phone} · {new Date(order.created_at).toLocaleString()}</p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl font-black text-dark">${Number(order.total).toFixed(2)}</span>
+                  <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    <span className="text-lg sm:text-xl font-black text-dark">${Number(order.total).toFixed(2)}</span>
                     <select
                       value={order.status}
                       onChange={e => handleStatusChange(order.order_id, e.target.value)}
                       disabled={updating === order.order_id}
-                      className="text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30 bg-white disabled:opacity-60"
+                      className="w-full sm:w-auto text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30 bg-white disabled:opacity-60"
                     >
                       {STATUS_OPTIONS.map(s => (
                         <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>

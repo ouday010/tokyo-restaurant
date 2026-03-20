@@ -43,7 +43,7 @@ export default function Header({ logoUrl }) {
                   <UtensilsCrossed className="h-5 w-5 text-white" />
                 </div>
               )}
-              <span className="font-bold text-lg text-dark hidden sm:block leading-tight">
+              <span className="font-bold text-lg text-dark header-logo-text leading-tight">
                 Tokyo Healthy<br />
                 <span className="text-primary text-sm font-semibold">& Tacos</span>
               </span>
