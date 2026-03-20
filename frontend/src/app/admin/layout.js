@@ -9,6 +9,7 @@ import {
 
 function AdminSidebar({ active, isOpen, onClose }) {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
   const links = [
     { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { href: '/admin/menu', icon: UtensilsCrossed, label: 'Menu' },
@@ -16,53 +17,174 @@ function AdminSidebar({ active, isOpen, onClose }) {
   ];
   const logout = () => { localStorage.removeItem('admin_token'); router.push('/admin/login'); };
 
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkScreenSize();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Calculate sidebar styles based on mobile/desktop
+  const getSidebarStyles = () => {
+    if (isMobile) {
+      return {
+        position: 'fixed',
+        left: isOpen ? '0' : '-100%',
+        top: '0',
+        height: '100%',
+        width: '16rem', // 64 * 4 = 256px
+        backgroundColor: '#1a1a1a', // bg-dark
+        color: 'white',
+        transition: 'left 0.3s ease-in-out',
+        zIndex: 50,
+        boxShadow: isOpen ? '4px 0 20px rgba(0,0,0,0.3)' : 'none',
+      };
+    } else {
+      return {
+        position: 'static',
+        left: '0',
+        top: '0',
+        height: '100%',
+        width: '14rem', // 56 * 4 = 224px
+        backgroundColor: '#1a1a1a', // bg-dark
+        color: 'white',
+        zIndex: 'auto',
+      };
+    }
+  };
+
+  // Calculate overlay styles
+  const getOverlayStyles = () => {
+    if (!isMobile || !isOpen) return { display: 'none' };
+    return {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 40,
+    };
+  };
+
   return (
     <>
       {/* Mobile overlay */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
-          onClick={onClose}
-        />
-      )}
+      <div 
+        style={getOverlayStyles()}
+        onClick={onClose}
+      />
       
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-full w-64 bg-dark text-white transform transition-transform duration-300 z-50 ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } md:translate-x-0 md:static md:w-56`}>
-        <div className="p-6 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <UtensilsCrossed className="h-4 w-4 text-white" />
+      <aside style={getSidebarStyles()}>
+        <div style={{
+          padding: '1.5rem',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+          }}>
+            <div style={{
+              height: '2rem',
+              width: '2rem',
+              borderRadius: '0.5rem',
+              backgroundColor: '#D73A2E', // bg-primary
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <UtensilsCrossed style={{ height: '1rem', width: '1rem', color: 'white' }} />
             </div>
             <div>
-              <p className="font-bold text-sm leading-tight">Tokyo H&T</p>
-              <p className="text-gray-400 text-xs">Admin Panel</p>
+              <p style={{ fontWeight: 'bold', fontSize: '0.875rem', lineHeight: '1.25rem', margin: 0 }}>Tokyo H&T</p>
+              <p style={{ color: '#9ca3af', fontSize: '0.75rem', margin: 0 }}>Admin Panel</p>
             </div>
           </div>
         </div>
-        <nav className="flex-1 p-4 space-y-1">
+        <nav style={{ flex: 1, padding: '1rem' }}>
           {links.map(l => (
             <Link 
               key={l.href} 
               href={l.href} 
               onClick={() => {
                 // Close sidebar on mobile when menu item is clicked
-                if (window.innerWidth < 768) {
+                if (isMobile) {
                   onClose();
                 }
               }}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                active === l.label ? 'bg-primary text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white'
-              }`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+                padding: '0.625rem 0.75rem',
+                borderRadius: '0.75rem',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+                color: active === l.label ? 'white' : '#d1d5db',
+                backgroundColor: active === l.label ? '#D73A2E' : 'transparent',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => {
+                if (active !== l.label) {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.color = 'white';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (active !== l.label) {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#d1d5db';
+                }
+              }}
             >
-              <l.icon className="h-4 w-4" /> {l.label}
+              <l.icon style={{ height: '1rem', width: '1rem' }} />
+              {l.label}
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-white/10">
-          <button onClick={logout} className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:bg-white/10 hover:text-white transition-colors w-full">
-            <LogOut className="h-4 w-4" /> Logout
+        <div style={{
+          padding: '1rem',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        }}>
+          <button 
+            onClick={logout}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              padding: '0.625rem 0.75rem',
+              borderRadius: '0.75rem',
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: '#9ca3af',
+              width: '100%',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#9ca3af';
+            }}
+          >
+            <LogOut style={{ height: '1rem', width: '1rem' }} />
+            Logout
           </button>
         </div>
       </aside>
