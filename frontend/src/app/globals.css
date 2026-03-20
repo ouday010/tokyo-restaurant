@@ -95,44 +95,44 @@ body {
   }
 
   /* Responsive spacing */
-  .p-4 { @apply p-3; }
-  .p-6 { @apply p-4; }
-  .p-8 { @apply p-6; }
-  .py-10 { @apply py-8; }
-  .py-20 { @apply py-16; }
+  .p-4-mobile { @apply p-3; }
+  .p-6-mobile { @apply p-4; }
+  .p-8-mobile { @apply p-6; }
+  .py-10-mobile { @apply py-8; }
+  .py-20-mobile { @apply py-16; }
 
   @media (min-width: 640px) {
-    .p-4 { @apply p-4; }
-    .p-6 { @apply p-6; }
-    .p-8 { @apply p-8; }
-    .py-10 { @apply py-10; }
-    .py-20 { @apply py-20; }
+    .p-4-mobile { @apply p-4; }
+    .p-6-mobile { @apply p-6; }
+    .p-8-mobile { @apply p-8; }
+    .py-10-mobile { @apply py-10; }
+    .py-20-mobile { @apply py-20; }
   }
 
   /* Responsive grid gaps */
-  .gap-3 { @apply gap-2; }
-  .gap-4 { @apply gap-3; }
-  .gap-5 { @apply gap-4; }
-  .gap-6 { @apply gap-6; }
+  .gap-3-mobile { @apply gap-2; }
+  .gap-4-mobile { @apply gap-3; }
+  .gap-5-mobile { @apply gap-4; }
+  .gap-6-mobile { @apply gap-5; }
 
   @media (min-width: 640px) {
-    .gap-3 { @apply gap-3; }
-    .gap-4 { @apply gap-4; }
-    .gap-5 { @apply gap-5; }
-    .gap-6 { @apply gap-6; }
+    .gap-3-mobile { @apply gap-3; }
+    .gap-4-mobile { @apply gap-4; }
+    .gap-5-mobile { @apply gap-5; }
+    .gap-6-mobile { @apply gap-6; }
   }
 
   /* Responsive margins */
-  .mb-3 { @apply mb-2; }
-  .mb-4 { @apply mb-3; }
-  .mb-6 { @apply mb-4; }
-  .mb-8 { @apply mb-6; }
+  .mb-3-mobile { @apply mb-2; }
+  .mb-4-mobile { @apply mb-3; }
+  .mb-6-mobile { @apply mb-4; }
+  .mb-8-mobile { @apply mb-6; }
 
   @media (min-width: 640px) {
-    .mb-3 { @apply mb-3; }
-    .mb-4 { @apply mb-4; }
-    .mb-6 { @apply mb-6; }
-    .mb-8 { @apply mb-8; }
+    .mb-3-mobile { @apply mb-3; }
+    .mb-4-mobile { @apply mb-4; }
+    .mb-6-mobile { @apply mb-6; }
+    .mb-8-mobile { @apply mb-8; }
   }
 
   /* Responsive padding for main content */
