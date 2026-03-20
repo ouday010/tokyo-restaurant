@@ -102,7 +102,7 @@ export default function AdminLayout({ children }) {
       </header>
 
       {/* Main content */}
-      <main className="md:ml-56 min-h-screen">
+      <main className="md:ml-56 min-h-screen pt-16 md:pt-0">
         <div className="p-6 md:p-8">
           {children}
         </div>
