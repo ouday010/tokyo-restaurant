@@ -94,12 +94,7 @@ body {
     }
   }
 
-  /* Responsive spacing */
-  .p-4-mobile { @apply p-3; }
-  .p-6-mobile { @apply p-4; }
-  .p-8-mobile { @apply p-6; }
-  .py-10-mobile { @apply py-8; }
-  .py-20-mobile { @apply py-16; }
+
 
   @media (min-width: 640px) {
     .p-4-mobile { @apply p-4; }
