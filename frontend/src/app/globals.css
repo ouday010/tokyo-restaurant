@@ -15,12 +15,16 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   background-color: #FAFAF8;
   color: #1A1A1A;
   font-family: 'Inter', system-ui, sans-serif;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @layer components {
@@ -42,6 +46,12 @@ body {
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
+  .table-responsive {
+    @apply overflow-x-auto;
+  }
+  .table-responsive table {
+    @apply min-w-full;
+  }
 }
 
 /* Scrollbar */
@@ -49,134 +59,11 @@ body {
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #D73A2E; border-radius: 3px; }
 
-/* Responsive Design Enhancements */
-@layer components {
-  /* Mobile-first responsive text sizes */
-  .text-xs { font-size: 0.75rem; line-height: 1.25rem; }
-  .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-  .text-base { font-size: 1rem; line-height: 1.5rem; }
-  .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-  .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-  .text-2xl { font-size: 1.5rem; line-height: 2rem; }
-  .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-  .text-5xl { font-size: 3rem; line-height: 1; }
-
-  /* Responsive buttons */
-  .btn-primary, .btn-secondary, .btn-outline {
-    @apply px-4 py-2.5 text-sm;
-  }
-
-  @media (min-width: 640px) {
-    .btn-primary, .btn-secondary, .btn-outline {
-      @apply px-6 py-3 text-base;
-    }
-  }
-
-  /* Responsive inputs */
-  .input-field {
-    @apply text-sm py-2.5;
-  }
-
-  @media (min-width: 640px) {
-    .input-field {
-      @apply text-base py-3;
-    }
-  }
-
-  /* Responsive cards */
-  .card {
-    @apply rounded-xl;
-  }
-
-  @media (min-width: 768px) {
-    .card {
-      @apply rounded-2xl;
-    }
-  }
-
-
-
-  @media (min-width: 640px) {
-    .p-4-mobile { @apply p-4; }
-    .p-6-mobile { @apply p-6; }
-    .p-8-mobile { @apply p-8; }
-    .py-10-mobile { @apply py-10; }
-    .py-20-mobile { @apply py-20; }
-  }
-
-  /* Responsive grid gaps */
-  .gap-3-mobile { @apply gap-2; }
-  .gap-4-mobile { @apply gap-3; }
-  .gap-5-mobile { @apply gap-4; }
-  .gap-6-mobile { @apply gap-5; }
-
-  @media (min-width: 640px) {
-    .gap-3-mobile { @apply gap-3; }
-    .gap-4-mobile { @apply gap-4; }
-    .gap-5-mobile { @apply gap-5; }
-    .gap-6-mobile { @apply gap-6; }
-  }
-
-  /* Responsive margins */
-  .mb-3-mobile { @apply mb-2; }
-  .mb-4-mobile { @apply mb-3; }
-  .mb-6-mobile { @apply mb-4; }
-  .mb-8-mobile { @apply mb-6; }
-
-  @media (min-width: 640px) {
-    .mb-3-mobile { @apply mb-3; }
-    .mb-4-mobile { @apply mb-4; }
-    .mb-6-mobile { @apply mb-6; }
-    .mb-8-mobile { @apply mb-8; }
-  }
-
-  /* Responsive padding for main content */
-  main { @apply px-4; }
-  @media (min-width: 768px) { main { @apply px-6; } }
-  @media (min-width: 1024px) { main { @apply px-8; } }
-
-  /* Ensure no horizontal scrolling */
-  html, body { max-width: 100%; overflow-x: hidden; }
-  .container, .max-w-6xl { width: 100%; max-width: 100%; }
-}
-
-/* Table responsive wrapper for admin pages */
-.table-responsive {
-  @apply overflow-x-auto;
-}
-
-.table-responsive table {
-  @apply min-w-full;
-}
-
-/* Hide scrollbar on mobile for category tabs */
+/* Hide scrollbar for category tabs */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-}
-
-/* Responsive badge sizes */
-.badge {
-  @apply px-2 py-0.5 text-xs;
-}
-
-@media (min-width: 640px) {
-  .badge {
-    @apply px-2.5 py-1 text-sm;
-  }
-}
-
-/* Responsive header logo text */
-.header-logo-text {
-  @apply hidden;
-}
-
-@media (min-width: 640px) {
-  .header-logo-text {
-    @apply block;
-  }
 }
