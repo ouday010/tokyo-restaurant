@@ -35,6 +35,8 @@ s.logo_url          ??= '';
 s.logo_public_id    ??= '';
 s.restaurant_name   ??= 'Tokyo Healthy & Tacos';
 s.tagline           ??= 'Fresh, Healthy & Utterly Delicious';
+s.admin_username    ??= 'admin';
+s.admin_password    ??= 'tokyo2024';
 
 // ─── Seed demo items on first run ────────────────────────────────────────────
 

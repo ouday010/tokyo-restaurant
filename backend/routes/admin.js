@@ -22,8 +22,9 @@ const upload = multer({
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'tokyo2024';
+  // Read admin credentials from database settings
+  const adminUsername = db.data.settings.admin_username;
+  const adminPassword = db.data.settings.admin_password;
 
   if (username !== adminUsername || password !== adminPassword) {
     return res.status(401).json({ error: 'Invalid credentials' });
@@ -55,12 +56,10 @@ router.post('/change-password', authMiddleware, async (req, res) => {
     return res.status(400).json({ error: 'Current password and new password are required' });
   }
 
-  // Get current password from database settings, fallback to env var
-  const currentDbPassword = db.data.settings.admin_password;
-  const fallbackPassword = process.env.ADMIN_PASSWORD || 'tokyo2024';
-  const actualPassword = currentDbPassword || fallbackPassword;
+  // Get current password from database settings
+  const currentPasswordFromDb = db.data.settings.admin_password;
 
-  if (currentPassword !== actualPassword) {
+  if (currentPassword !== currentPasswordFromDb) {
     return res.status(401).json({ error: 'Current password is incorrect' });
   }
 

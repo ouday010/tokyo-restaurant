@@ -137,6 +137,8 @@
     "logo_url": "",
     "logo_public_id": "",
     "restaurant_name": "Tokyo Healthy & Tacos",
-    "tagline": "Fresh, Healthy & Utterly Delicious"
+    "tagline": "Fresh, Healthy & Utterly Delicious",
+    "admin_username": "admin",
+    "admin_password": "tokyo2024"
   }
 }
