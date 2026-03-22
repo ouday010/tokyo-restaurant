@@ -22,11 +22,19 @@ const upload = multer({
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  // Read admin credentials from database settings
-  const adminUsername = db.data.settings.admin_username;
-  const adminPassword = db.data.settings.admin_password;
+  // Read admin credentials from admin.json file
+  const fs = require('fs');
+  const path = require('path');
+  const adminFile = path.join(__dirname, '../data/admin.json');
+  
+  let adminCredentials;
+  try {
+    adminCredentials = JSON.parse(fs.readFileSync(adminFile, 'utf-8'));
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to load admin credentials' });
+  }
 
-  if (username !== adminUsername || password !== adminPassword) {
+  if (username !== adminCredentials.username || password !== adminCredentials.password) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
@@ -56,10 +64,19 @@ router.post('/change-password', authMiddleware, async (req, res) => {
     return res.status(400).json({ error: 'Current password and new password are required' });
   }
 
-  // Get current password from database settings
-  const currentPasswordFromDb = db.data.settings.admin_password;
+  // Read admin credentials from admin.json file
+  const fs = require('fs');
+  const path = require('path');
+  const adminFile = path.join(__dirname, '../data/admin.json');
+  
+  let adminCredentials;
+  try {
+    adminCredentials = JSON.parse(fs.readFileSync(adminFile, 'utf-8'));
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to load admin credentials' });
+  }
 
-  if (currentPassword !== currentPasswordFromDb) {
+  if (currentPassword !== adminCredentials.password) {
     return res.status(401).json({ error: 'Current password is incorrect' });
   }
 
@@ -67,9 +84,13 @@ router.post('/change-password', authMiddleware, async (req, res) => {
     return res.status(400).json({ error: 'New password must be at least 6 characters long' });
   }
 
-  // Update the password in the database
-  db.data.settings.admin_password = newPassword;
-  await db.write();
+  // Update the password in admin.json file
+  try {
+    adminCredentials.password = newPassword;
+    fs.writeFileSync(adminFile, JSON.stringify(adminCredentials, null, 2));
+  } catch (err) {
+    return res.status(500).json({ error: 'Failed to update password' });
+  }
 
   res.json({ message: 'Password changed successfully' });
 });
