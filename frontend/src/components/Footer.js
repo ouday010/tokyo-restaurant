@@ -52,8 +52,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 pt-6 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} Tokyo Healthy & Tacos. All rights reserved.
+        <div className="border-t border-white/10 mt-10 pt-6 flex justify-between items-center">
+          <div className="text-center text-xs text-gray-500">
+            © {new Date().getFullYear()} Tokyo Healthy & Tacos. All rights reserved.
+          </div>
+          <Link 
+            href="/admin/login" 
+            className="text-xs text-gray-400 hover:text-gray-300 transition-colors"
+          >
+            Staff Login
+          </Link>
         </div>
       </div>
     </footer>
