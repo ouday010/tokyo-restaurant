@@ -41,6 +41,7 @@ export default function SettingsPage() {
     setLoading(true);
 
     try {
+      console.log('Token:', localStorage.getItem('admin_token'));
       const response = await fetch('https://tokyo-restaurant-production.up.railway.app/api/admin/change-password', {
         method: 'POST',
         headers: {

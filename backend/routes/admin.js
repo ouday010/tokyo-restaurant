@@ -45,6 +45,10 @@ router.get('/settings', (req, res) => {
 
 // POST /api/admin/change-password — protected
 router.post('/change-password', authMiddleware, async (req, res) => {
+  console.log('Change password route called');
+  console.log('JWT_SECRET:', process.env.JWT_SECRET || 'fallback_secret_change_me');
+  console.log('Admin from token:', req.admin);
+  
   const { currentPassword, newPassword } = req.body;
 
   if (!currentPassword || !newPassword) {
