@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LayoutDashboard, UtensilsCrossed, ShoppingBag, LogOut, ChevronDown, Search, RefreshCw } from 'lucide-react';
 import { getAllOrders, updateOrderStatus } from '@/lib/api';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 const STATUS_OPTIONS = ['pending', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled'];
 const STATUS_COLORS = {
@@ -26,6 +27,9 @@ export default function OrdersPage() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [updating, setUpdating] = useState(null);
 
+  // Check authentication using reusable hook
+  useAdminAuth();
+
   const load = () => {
     setLoading(true);
     getAllOrders()
@@ -35,8 +39,6 @@ export default function OrdersPage() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) { router.replace('/admin/login'); return; }
     load();
   }, []);
 

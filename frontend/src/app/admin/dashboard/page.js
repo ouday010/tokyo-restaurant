@@ -8,6 +8,7 @@ import {
   Users, DollarSign, Eye, LogOut, Package, Star, ChevronRight
 } from 'lucide-react';
 import { getAdminStats } from '@/lib/api';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 const STATUS_COLORS = {
   pending: 'bg-amber-100 text-amber-700',
@@ -25,9 +26,10 @@ export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Check authentication using reusable hook
+  useAdminAuth();
+
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) { router.replace('/admin/login'); return; }
     getAdminStats()
       .then(setStats)
       .catch(() => router.replace('/admin/login'))

@@ -8,6 +8,7 @@ import {
   Plus, Trash2, Eye, EyeOff, Upload, X, Loader2, Image as ImageIcon
 } from 'lucide-react';
 import { getAllMenuItems, addMenuItem, deleteMenuItem, updateLogo, getSettings, updateMenuItem } from '@/lib/api';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 const CATEGORIES = ['bowl', 'taco', 'side', 'drink', 'main'];
 
@@ -150,6 +151,9 @@ export default function MenuManagePage() {
   const [logoUploading, setLogoUploading] = useState(false);
   const logoRef = useRef();
 
+  // Check authentication using reusable hook
+  useAdminAuth();
+
   const load = () => {
     Promise.all([getAllMenuItems(), getSettings()])
       .then(([menuData, settingsData]) => {
@@ -161,8 +165,6 @@ export default function MenuManagePage() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) { router.replace('/admin/login'); return; }
     load();
   }, []);
 

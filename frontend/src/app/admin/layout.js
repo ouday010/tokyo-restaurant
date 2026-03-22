@@ -4,11 +4,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LayoutDashboard, UtensilsCrossed, ShoppingBag, LogOut, Menu, X, Settings } from 'lucide-react';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  // Check authentication on component mount
+  useAdminAuth();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);

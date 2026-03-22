@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -11,6 +12,9 @@ export default function SettingsPage() {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  
+  // Check authentication using reusable hook
+  useAdminAuth();
   
   const [formData, setFormData] = useState({
     currentPassword: '',
