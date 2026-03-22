@@ -44,17 +44,19 @@ router.get('/settings', (req, res) => {
 });
 
 // POST /api/admin/change-password — protected
-router.post('/change-password', authMiddleware, (req, res) => {
+router.post('/change-password', authMiddleware, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
-
-  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'tokyo2024';
 
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ error: 'Current password and new password are required' });
   }
 
-  if (currentPassword !== adminPassword) {
+  // Get current password from database settings, fallback to env var
+  const currentDbPassword = db.data.settings.admin_password;
+  const fallbackPassword = process.env.ADMIN_PASSWORD || 'tokyo2024';
+  const actualPassword = currentDbPassword || fallbackPassword;
+
+  if (currentPassword !== actualPassword) {
     return res.status(401).json({ error: 'Current password is incorrect' });
   }
 
@@ -62,8 +64,10 @@ router.post('/change-password', authMiddleware, (req, res) => {
     return res.status(400).json({ error: 'New password must be at least 6 characters long' });
   }
 
-  // Update the environment variable (this would need to be persisted in a real app)
-  // For now, we'll just return success since this is a demo
+  // Update the password in the database
+  db.data.settings.admin_password = newPassword;
+  await db.write();
+
   res.json({ message: 'Password changed successfully' });
 });
 
