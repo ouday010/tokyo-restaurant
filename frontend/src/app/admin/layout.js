@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, UtensilsCrossed, ShoppingBag, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, UtensilsCrossed, ShoppingBag, LogOut, Menu, X, Settings } from 'lucide-react';
 
 export default function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,6 +26,7 @@ export default function AdminLayout({ children }) {
     { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { href: '/admin/menu', icon: UtensilsCrossed, label: 'Menu' },
     { href: '/admin/orders', icon: ShoppingBag, label: 'Orders' },
+    { href: '/admin/settings', icon: Settings, label: 'Settings' },
   ];
 
   const sidebarStyle = isMobile ? {

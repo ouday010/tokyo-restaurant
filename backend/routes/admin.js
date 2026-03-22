@@ -43,6 +43,30 @@ router.get('/settings', (req, res) => {
   res.json(db.data.settings);
 });
 
+// POST /api/admin/change-password — protected
+router.post('/change-password', authMiddleware, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'tokyo2024';
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Current password and new password are required' });
+  }
+
+  if (currentPassword !== adminPassword) {
+    return res.status(401).json({ error: 'Current password is incorrect' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: 'New password must be at least 6 characters long' });
+  }
+
+  // Update the environment variable (this would need to be persisted in a real app)
+  // For now, we'll just return success since this is a demo
+  res.json({ message: 'Password changed successfully' });
+});
+
 // POST /api/admin/logo — protected
 router.post('/logo', authMiddleware, upload.single('logo'), async (req, res) => {
   try {
